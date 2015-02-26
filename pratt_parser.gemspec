@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.test_files       = `git ls-files -- spec/*`.split("\n")
   gem.name             = "pratt_parser"
   gem.require_paths    = ["lib"]
-  gem.version          = "0.0.3"
+  gem.version          = "0.1.0"
   gem.license          = "MIT"
   # Needs Enumerator which was added in 1.9.
   gem.required_ruby_version = ">= 1.9"
