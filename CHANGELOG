@@ -1,6 +1,7 @@
 ## 0.0.3 ##
 
   * examples/tree.rb supports prefix + and -.
+  * gem.required_ruby_version is >= 1.9.
 
 ## 0.0.2 ##
 
