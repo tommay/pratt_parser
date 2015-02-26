@@ -1,6 +1,8 @@
 Pratt Parser
 ============
 
+[![Gem Version](https://badge.fury.io/rb/pratt_parser.svg)](http://badge.fury.io/rb/pratt_parser)
+
 A Pratt Parser.  Just a simple parsing framework.
 
 Define tokens that describe your language and combine terms.  Write a
