@@ -2,13 +2,33 @@
 
 # Parses simple arithmetic expressions using a PrattParser.  Supports
 # +, -, *, /, ^ (with customary precedence and associativity), and
-# parentheses.  The parse returns a tree of BinaryNode and NumberNode
-# objects which is printed prefix-style ala Lisp.
+# parentheses.  + and - may be either prefix or infix.  The parse
+# returns a tree of *Node objects which is printed prefix-style ala
+# Lisp.
 #
 # Numeric integer constants are supported using single-digit tokens
 # which are left-associative.
 
 require "pratt_parser"
+
+class UnaryNode
+  def initialize(operator, node)
+    @operator = operator
+    @node = node
+  end
+
+  def to_s
+    "(#{@operator} #{@node})"
+  end
+
+  # Returns a pretty-print version of the expression ala Lisp.
+
+  def pp(indent = "")
+    newindent = indent + "  "
+    "#{indent}(#{@operator}\n#{@node.pp(newindent)})"
+  end
+
+end
 
 class BinaryNode
   def initialize(operator, left, right)
@@ -34,7 +54,7 @@ class NumberNode
     @number = number
   end
 
-  def get_number
+  def number
     @number
   end
 
@@ -91,6 +111,16 @@ class TreeBuilder
       end
     end
 
+    # A Bifix token can be either prefix (via nud) or infix (via lcd).
+
+    class BifixToken < InfixToken
+      def nud(parser)
+        # Bind super-right to the right.
+        right = parser.expression(1000000)
+        UnaryNode.new(@operator, right)
+      end
+    end
+
     class DigitToken < Token
       def initialize(lbp, value)
         super(lbp)
@@ -127,12 +157,16 @@ class TreeBuilder
       token(char, InfixToken.new(char, lbp, associates))
     end
 
+    def self.bifix(char, lbp)
+      token(char, BifixToken.new(char, lbp, :left))
+    end
+
     token("(", LeftParenToken.new(1))
     token(")", RightParenToken.new(1))
 
     infix("=", 10)
-    infix("+", 20)
-    infix("-", 20)
+    bifix("+", 20)
+    bifix("-", 20)
     infix("*", 30)
     infix("/", 30)
     infix("^", 40, :right)
