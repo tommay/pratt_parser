@@ -47,6 +47,17 @@ class PrattEvaluator
       end
     end
 
+    class PostfixToken < Token
+      def initialize(lbp, &block)
+        super(lbp)
+        @block = block
+      end
+
+      def led(parser, left)
+        @block.call(left)
+      end
+    end
+
     class DigitToken < Token
       def initialize(lbp, value)
         super(lbp)
@@ -83,6 +94,14 @@ class PrattEvaluator
       token(char, InfixToken.new(lbp, associates, &block))
     end
 
+    def self.postfix(char, lbp, &block)
+      token(char, PostfixToken.new(lbp, &block))
+    end
+
+    def self.factorial(n)
+      n <= 1 ? 1 : n * factorial(n - 1)
+    end
+
     token("(", LeftParenToken.new(1))
     token(")", RightParenToken.new(1))
 
@@ -92,6 +111,7 @@ class PrattEvaluator
     infix("*", 30, &:*)
     infix("/", 30, &:/)
     infix("^", 40, :right, &:**)
+    postfix("!", 50) {|left| factorial(left)}
 
     (0..9).each do |d|
       token(d.to_s, DigitToken.new(100, d.to_f))

@@ -115,9 +115,20 @@ class TreeBuilder
 
     class BifixToken < InfixToken
       def nud(parser)
-        # Bind super-right to the right.
+        # Bind super-tight to the right.
         right = parser.expression(1000000)
         UnaryNode.new(@operator, right)
+      end
+    end
+
+    class PostfixToken < Token
+      def initialize(function, lbp)
+        super(lbp)
+        @function = function
+      end
+
+      def led(parser, left)
+        UnaryNode.new(@function, left)
       end
     end
 
@@ -161,6 +172,10 @@ class TreeBuilder
       token(char, BifixToken.new(char, lbp, :left))
     end
 
+    def self.postfix(char, lbp, function, &block)
+      token(char, PostfixToken.new(function, lbp))
+    end
+
     token("(", LeftParenToken.new(1))
     token(")", RightParenToken.new(1))
 
@@ -170,6 +185,7 @@ class TreeBuilder
     infix("*", 30)
     infix("/", 30)
     infix("^", 40, :right)
+    postfix("!", 50, "factorial")
 
     (0..9).each do |d|
       token(d.to_s, DigitToken.new(100, d))

@@ -1,3 +1,7 @@
+## 0.0.4 ##
+
+  * Add postfix factorial operator to examples.
+
 ## 0.0.3 ##
 
   * examples/tree.rb supports prefix + and -.
