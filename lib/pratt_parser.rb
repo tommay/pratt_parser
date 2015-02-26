@@ -73,8 +73,11 @@ class PrattParser
     @token = @lexer.next
   end
 
-  def if?(token_class)
-    if @token.class == token_class
+  def if?(token_class, &block)
+    block ||= lambda do |token|
+      token.class == token_class
+    end
+    if block.call(@token)
       @token = @lexer.next
     end
   end
