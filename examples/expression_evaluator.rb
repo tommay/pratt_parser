@@ -1,15 +1,15 @@
 #!/usr/bin/env ruby
 
 # Evaluate simple arithmetic expressions using a PrattParser.
-# Supports +, -, *, /, ^ (with customary precedence and associativity,
-# and parentheses.  Also supports = to compare numbers and booleans.
-# Adding support for < and > would be a simple matter of adding some
-# more tokens.
+# Supports +, -, *, /, ^ (with customary precedence and
+# associativity), and parentheses.  Also supports = to compare numbers
+# and booleans.  Adding support for < and > would be a simple matter
+# of adding some more tokens.
 #
 # Supporting whitespace needs a lexer that throws away whitespace.
 #
 # Numeric integer constants are supported using single-digit tokens
-# which are left-associatiuve.
+# which are left-associative.
 
 require "pratt_parser"
 
