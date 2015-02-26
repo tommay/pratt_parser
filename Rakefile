@@ -1,3 +1,11 @@
+require 'rake/testtask'
+
+task :default => :test
+
+Rake::TestTask.new do |t|
+  t.pattern = "spec/**/*_spec.rb"
+end
+
 task :gem do
   sh "gem build pratt_parser.gemspec"
 end
