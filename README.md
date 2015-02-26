@@ -4,7 +4,7 @@ Pratt Parser
 [![Gem Version](https://badge.fury.io/rb/pratt_parser.svg)](http://badge.fury.io/rb/pratt_parser)
 [![Build Status](https://travis-ci.org/tommay/pratt_parser.svg)](https://travis-ci.org/tommay/pratt_parser)
 
-A Pratt Parser.  Just a simple parsing framework.
+A Pratt Parser.  Just a simple parsing engine.
 
 Define tokens that describe your language and combine terms.  Write a
 Lexer (an Enumerator) that produces a stream of tokens.  Instantiate a
