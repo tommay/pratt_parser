@@ -83,8 +83,8 @@ class PrattEvaluator
       token(char, InfixToken.new(lbp, associates, &block))
     end
 
-    token("(", LeftParenToken.new(0))
-    token(")", RightParenToken.new(0))
+    token("(", LeftParenToken.new(1))
+    token(")", RightParenToken.new(1))
 
     infix("=", 10, &:==)
     infix("+", 20, &:+)
