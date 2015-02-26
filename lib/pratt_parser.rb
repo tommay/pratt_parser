@@ -63,10 +63,13 @@ class PrattParser
     left
   end
 
-  def expect(expected_token_class)
-    if @token.class != expected_token_class
-      raise "Expected #{expected_token_class}, got #{@token.class}"
+  def expect(expected_token_class = nil, &block)
+    block ||= lambda do |token|
+      if token.class != expected_token_class
+        raise "Expected #{expected_token_class}, got #{token.class}"
+      end
     end
+    block.call(@token)
     @token = @lexer.next
   end
 
