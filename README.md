@@ -12,8 +12,8 @@ Pratt parsers are like recursive descent parsers but instead of having
 to code a function for each production you just code up some token
 objects which define their own prededence and associativity and how
 subexpressions to the left and/or right are combined.  So it's simple
-to add new new language features/tokens without having to rewrite a
-bunch of recursive descent functions.
+to add new language features/tokens without having to rewrite a bunch
+of recursive descent functions.
 
 Pratt parsers are also more efficient than recursive descent parsers
 since they don't need to recurse all the way down to the bottom level
