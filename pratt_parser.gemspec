@@ -1,5 +1,5 @@
 Gem::Specification.new do |gem|
-  gem.description      = "A Pratt parser.  Create token objects to define your language."
+  gem.description      = "A Pratt parser.  Create token objects to define your language.  Create a lexer to return tokens.  Call the parser to grok the language."
   gem.summary          = "A Pratt parser."
   gem.authors          = ["Tom May"]
   gem.email            = ["tom@tommay.net"]
