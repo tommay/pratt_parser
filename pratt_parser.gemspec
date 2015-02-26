@@ -4,11 +4,11 @@ Gem::Specification.new do |gem|
   gem.authors          = ["Tom May"]
   gem.email            = ["tom@tommay.net"]
   gem.homepage         = "https://github.com/tommay/pratt_parser"
-  gem.files            = `git ls-files | egrep -v '^example'`.split("\n")
+  gem.files            = `git ls-files`.split("\n")
   gem.test_files       = `git ls-files -- spec/*`.split("\n")
   gem.name             = "pratt_parser"
   gem.require_paths    = ["lib"]
-  gem.version          = "0.0.0"
+  gem.version          = "0.0.1"
   gem.license          = "MIT"
 #  gem.required_ruby_version = '>= 2.1.0'
 end
