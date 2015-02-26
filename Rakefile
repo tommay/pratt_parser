@@ -14,6 +14,10 @@ task :install => :gem do
   sh "gem install pratt_parser"
 end
 
+task :push => [:clean, :gem] do
+  sh "gem push pratt_parser-*.gem"
+end
+
 task :clean do
-  sh "rm *.gem"
+  sh "rm -f *.gem"
 end
