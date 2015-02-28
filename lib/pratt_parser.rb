@@ -7,9 +7,9 @@
 #
 # lexer is must have an +#each+ method that returns token objects.  A token
 # has three methods:
-# lbp::
+# +lbp+::
 #   Returns the operator precedence.  Higher numbers bind more tightly.
-# nud(parser)::
+# <tt>nud(parser)</tt>::
 #   Called when the token is the first token in an expression,
 #   including a recursive call to +expresssion+ (i.e., subexpression).
 #   For example, +nud+ would be called for a unary operator, a literal,
@@ -17,7 +17,7 @@
 #   the token's responsibility to call +parser.expression+,
 #   +parser.expect+, and/or +parser.if?+ to handle the remainder of the
 #   (sub)expression, if any.
-# led(parser, left)::
+# <tt>led(parser, left)</tt>::
 #   Called when the token is preceeded by a subexpression, passed in
 #   as +left+.  The token may be postfix or infix.  It is the token's
 #   responsibility to call +parser.expression+, +parser.expect+,
