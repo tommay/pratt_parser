@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.authors          = ["Tom May"]
   gem.email            = ["tom@tommay.net"]
   gem.homepage         = "https://github.com/tommay/pratt_parser"
-  gem.files            = `git ls-files`.split("\n")
+  gem.files            = `git ls-files`.split("\n") - [".gitignore", ".travis.yml"]
   gem.test_files       = `git ls-files -- spec/*`.split("\n")
   gem.name             = "pratt_parser"
   gem.require_paths    = ["lib"]
