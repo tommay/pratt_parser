@@ -19,5 +19,5 @@ task :push => [:clean, :gem] do
 end
 
 task :clean do
-  sh "rm -f *.gem"
+  sh "rm -fr *.gem doc"
 end
