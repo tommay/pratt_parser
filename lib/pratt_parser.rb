@@ -15,7 +15,7 @@
 #   For example, +nud+ would be called for a unary operator, a literal,
 #   or for the "if" in the construct "if <cond> then <expr>".  It is
 #   the token's responsibility to call +parser.expression+,
-#   +parser.expect+, and/or =parser.if?+ to handle the remainder of the
+#   +parser.expect+, and/or +parser.if?+ to handle the remainder of the
 #   (sub)expression, if any.
 # led(parser, left)::
 #   Called when the token is preceeded by a subexpression, passed in
@@ -30,11 +30,11 @@
 # (sub)expression then an exception that isn't at al appropriate
 # to the abstraction will be thrown.
 #
-# +nud+ and +led+ can call +parser.expression+(+rbp+) to recursively
+# +nud+ and +led+ can call <tt>parser.expression(rbp)</tt> to recursively
 # parse the right subexpression.  +rbp+ should be the token's +lbp+ for
 # left-associativity, +lbp-1+ for right.
 #
-# "PrattParser.new(lexer).eval" will return the result of the parse.
+# <tt>PrattParser.new(lexer).eval</tt> will return the result of the parse.
 #
 # Syntax errors aren't handled at the moment and will cause ridiculous
 # exceptions to be raised such as +NoMethodError+.
