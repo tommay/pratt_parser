@@ -122,8 +122,12 @@ class PrattParser
     end
   end
 
+  # A private class.  An instance of +EndToken+ is automatically
+  # appended as the last token in the input stream.  With its +lbp+ of
+  # zero it will terminate the parse.
+  #
   class EndToken
-    def lbp
+    def lbp                     # :nodoc:
       0
     end
   end
