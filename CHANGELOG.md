@@ -1,3 +1,7 @@
+## 0.1.1 ##
+
+  * Better rdoc-compliant comments.
+
 ## 0.1.0 ##
 
   * Add postfix factorial operator to examples.
