@@ -1,3 +1,7 @@
+## 0.1.2 ##
+
+  * Even better rdoc-compliant comments.
+
 ## 0.1.1 ##
 
   * Better rdoc-compliant comments.
