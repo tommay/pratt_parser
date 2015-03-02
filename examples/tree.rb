@@ -27,7 +27,6 @@ class UnaryNode
     newindent = indent + "  "
     "#{indent}(#{@operator}\n#{@node.pp(newindent)})"
   end
-
 end
 
 class BinaryNode
@@ -46,6 +45,25 @@ class BinaryNode
   def pp(indent = "")
     newindent = indent + "  "
     "#{indent}(#{@operator}\n#{@left.pp(newindent)}\n#{@right.pp(newindent)})"
+  end
+end
+
+class TernaryNode
+  def initialize(cond, if_expr, else_expr)
+    @cond = cond
+    @if_expr = if_expr
+    @else_expr = else_expr
+  end
+
+  def to_s
+    "(? #{@cond} #{@if_expr} #{@else_expr})"
+  end
+
+  # Returns a pretty-print version of the expression ala Lisp.
+
+  def pp(indent = "")
+    newindent = indent + "  "
+    "#{indent}(if\n#{@cond.pp(newindent)}\n#{@if_expr.pp(newindent)}\n#{@else_expr.pp(newindent)})"
   end
 end
 
@@ -158,6 +176,18 @@ class TreeBuilder
     class RightParenToken < Token
     end
     
+    class QuestionToken < Token
+      def led(parser, cond)
+        if_expr = parser.expression(lbp)
+        parser.expect(ColonToken)
+        else_expr = parser.expression(lbp)
+        TernaryNode.new(cond, if_expr, else_expr)
+      end
+    end
+
+    class ColonToken < Token
+    end
+    
     @@tokens = {}
     
     def self.token(char, t)
@@ -180,6 +210,8 @@ class TreeBuilder
     token(")", RightParenToken.new(1))
 
     infix("=", 10)
+    token("?", QuestionToken.new(15))
+    token(":", ColonToken.new(15))
     bifix("+", 20)
     bifix("-", 20)
     infix("*", 30)
