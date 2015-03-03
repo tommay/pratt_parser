@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    pratt_parser (0.1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -16,3 +21,4 @@ PLATFORMS
 DEPENDENCIES
   byebug
   minitest (~> 5.4)
+  pratt_parser!
