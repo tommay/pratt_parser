@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Parses simple arithmetic expressions using a PrattParser.  Supports
-# +, -, *, /, ^ (with customary precedence and associativity), and
+# +, -, *, /, ^, ?: (with customary precedence and associativity), and
 # parentheses.  + and - may be either prefix or infix.  The parse
 # returns a tree of *Node objects which is printed prefix-style ala
 # Lisp.
@@ -97,11 +97,8 @@ class TreeBuilder
 
     def self.new(expression)
       Enumerator.new do |y|
-        expression.each_char do |c|
-          # Discard spaces.
-          if c != " "
-            y << @@tokens[c]
-          end
+        expression.scan(%r{\S}) do |c|
+          y << @@tokens[c]
         end
       end
     end
