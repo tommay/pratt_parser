@@ -9,6 +9,7 @@
 # Numeric integer constants are supported using single-digit tokens
 # which are left-associative.
 
+require "bundler/setup"
 require "pratt_parser"
 
 class UnaryNode
@@ -49,21 +50,30 @@ class BinaryNode
 end
 
 class TernaryNode
-  def initialize(cond, if_expr, else_expr)
+  def initialize(operator, cond, if_expr, else_expr)
+    @operator = operator
     @cond = cond
     @if_expr = if_expr
     @else_expr = else_expr
   end
 
   def to_s
-    "(? #{@cond} #{@if_expr} #{@else_expr})"
+    if @else_expr
+      "(#{@operator} #{@cond} #{@if_expr} #{@else_expr})"
+    else
+      "(#{@operator} #{@cond} #{@if_expr})"
+    end
   end
 
   # Returns a pretty-print version of the expression ala Lisp.
 
   def pp(indent = "")
     newindent = indent + "  "
-    "#{indent}(if\n#{@cond.pp(newindent)}\n#{@if_expr.pp(newindent)}\n#{@else_expr.pp(newindent)})"
+    if @else_expr
+      "#{indent}(#{@operator}\n#{@cond.pp(newindent)}\n#{@if_expr.pp(newindent)}\n#{@else_expr.pp(newindent)})"
+    else
+      "#{indent}(#{@operator}\n#{@cond.pp(newindent)}\n#{@if_expr.pp(newindent)})"
+    end
   end
 end
 
@@ -97,8 +107,8 @@ class TreeBuilder
 
     def self.new(expression)
       Enumerator.new do |y|
-        expression.scan(%r{\S}) do |c|
-          y << @@tokens[c]
+        expression.scan(%r{\b(?:if|then|else|end)\b|\S}) do |token|
+          y << @@tokens[token]
         end
       end
     end
@@ -178,11 +188,41 @@ class TreeBuilder
         if_expr = parser.expression(lbp)
         parser.expect(ColonToken)
         else_expr = parser.expression(lbp)
-        TernaryNode.new(cond, if_expr, else_expr)
+        TernaryNode.new("?", cond, if_expr, else_expr)
       end
     end
 
     class ColonToken < Token
+    end
+
+    class IfToken < Token
+      def nud(parser)
+        cond = parser.expression(lbp)
+        parser.expect{|token| token.expect("then")}
+        then_expr = parser.expression(lbp)
+        if parser.if?{|token| token.if?("else")}
+          else_expr = parser.expression(lbp)
+        end
+        parser.expect{|token| token.expect("end")}
+        TernaryNode.new("if", cond, then_expr, else_expr)
+      end
+    end
+
+    class KeywordToken < Token
+      def initialize(lbp, keyword)
+        super(lbp)
+        @keyword = keyword
+      end
+
+      def expect(keyword)
+        if keyword != @keyword
+          raise "Expected #{keyword} token, got #{@keyword}"
+        end
+      end
+
+      def if?(keyword)
+        keyword == @keyword
+      end
     end
     
     @@tokens = {}
@@ -207,6 +247,10 @@ class TreeBuilder
     token(")", RightParenToken.new(1))
 
     infix("=", 10)
+    token("if", IfToken.new(12))
+    token("then", KeywordToken.new(12, "then"))
+    token("else", KeywordToken.new(12, "else"))
+    token("end", KeywordToken.new(12, "end"))
     token("?", QuestionToken.new(15))
     token(":", ColonToken.new(15))
     bifix("+", 20)
