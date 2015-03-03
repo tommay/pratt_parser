@@ -113,7 +113,7 @@ class PrattParser
   # +if?+ can be used for optional tokens such as the +else+
   # clause in "if cond then val1 [else val2] end".
   #
-  def if?(token_class, &block)
+  def if?(token_class = nil, &block)
     block ||= lambda do |token|
       token.class == token_class
     end
